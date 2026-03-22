@@ -9,6 +9,9 @@ const bookingSchema = new mongoose.Schema({
     status: {type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending"},
     price: {type: Number, required: true},
     paymentStatus: {type: String, enum: ["pending", "confirmed", "cancelled"], default: "pending"},
+    checkoutRequestId: { type: String },
+    merchantRequestId: { type: String },
+    transactionId: { type: String },
 
 },{timestamps: true})
 

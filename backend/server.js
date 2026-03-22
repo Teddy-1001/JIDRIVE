@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoutes.js";
 import ownerRouter from "./routes/ownerRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
 import cookieParser from "cookie-parser";
+import { mpesaCallback } from "./controlers/mpesa.js";
 
 
 //initiitalize express app
@@ -28,6 +29,7 @@ app.get('/', (req,res)=>{
 app.use('/api/user', userRouter)
 app.use('/api/owner', ownerRouter)
 app.use('/api/bookings', bookingRouter)
+app.use("/api", mpesaCallback)
 
 const PORT = process.env.PORT || 3000;
 

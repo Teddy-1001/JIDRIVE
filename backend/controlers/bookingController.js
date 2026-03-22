@@ -95,7 +95,7 @@ export const createBooking = async (req, res) => {
                 PartyA: phoneNumber,
                 PartyB: shortcode,
                 PhoneNumber: phoneNumber,
-                CallBackURL: "https://yourdomain.com/api/mpesa/callback",
+                CallBackURL: "https://jidrive.vercel.app/api/mpesa/callback",
                 AccountReference: booking._id.toString(),
                 TransactionDesc: "Car Booking Payment"
             },
@@ -106,7 +106,19 @@ export const createBooking = async (req, res) => {
             }
         )
 
-       
+        if (data.ResponseCode !== "0") {
+            return res.json({
+                success: false,
+                message: "STK Push failed",
+                error: data
+            })
+        }
+
+        await Booking.findByIdAndUpdate(booking._id, {
+            merchantRequestId: data.MerchantRequestID,
+            checkoutRequestId: data.CheckoutRequestID
+        })
+
 
         res.json({
             success: true,
@@ -119,7 +131,7 @@ export const createBooking = async (req, res) => {
     } catch (error) {
         if (error.response) {
             console.log("STATUS:", error.response.status)
-            console.log("DATA:", error.response.data) 
+            console.log("DATA:", error.response.data)
 
             return res.json({
                 success: false,
